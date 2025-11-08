@@ -1,10 +1,28 @@
 stages:
+  - build
   - test
+
+build_app:
+  stage: build
+  image: python3.12
+  script:
+    - echo "Building Flask app...."
+    - mkdir build
+    - mv -r app.py requirements.txt templates build/
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 hour
+
 
 test_flask_app:
   stage: test
   image: python:3.12
   before_script:
-    - pip install -r requirements.txt
+    - echo "Installing requirements...."
+    - pip install -r build/requirements.txt
   script:
-    - python3 -m py_compile app.py
+    - echo "Testing Flask app...."
+    - python3 -m py_compile build/app.py
+  dependencies:
+    - build_app
