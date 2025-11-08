@@ -9,7 +9,7 @@ build_app:
   script:
     - echo "Building Flask app...."
     - mkdir build
-    - mv -r app.py requirements.txt templates build/
+    - cp -r app.py requirements.txt templates build/
   artifacts:
     paths:
       - build/
@@ -34,7 +34,7 @@ deploy_app:
   script:
     - echo "Deploying Flask app to staging environment...."
     - mkdir -p flask-deploy
-    - copy -r build/* flask-deploy/
+    - cp -r build/* flask-deploy/
     - echo "App deployed successfully!"
   dependencies:
     - build_app
