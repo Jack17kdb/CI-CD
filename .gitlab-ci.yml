@@ -9,7 +9,7 @@ build_app:
   script:
     - echo "Building Flask app...."
     - mkdir build
-    - cp -r app.py requirements.txt templates build/
+    - cp -r flask-cicd/* build/
   artifacts:
     paths:
       - build/
