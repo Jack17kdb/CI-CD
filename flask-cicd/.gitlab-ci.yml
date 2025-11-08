@@ -1,10 +1,11 @@
 stages:
   - build
   - test
+  - deploy
 
 build_app:
   stage: build
-  image: python3.12
+  image: python:3.12
   script:
     - echo "Building Flask app...."
     - mkdir build
@@ -26,3 +27,18 @@ test_flask_app:
     - python3 -m py_compile build/app.py
   dependencies:
     - build_app
+
+deploy_app:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploying Flask app to staging environment...."
+    - mkdir -p flask-deploy
+    - copy -r build/* flask-deploy/
+    - echo "App deployed successfully!"
+  dependencies:
+    - build_app
+  environment:
+    name: staging
+    url: https://staging.example.com
+  when: manual
